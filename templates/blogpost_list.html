@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Bootstrap Template</title>
+    <style>
+       .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s ease-in-out;
+            background-color: rgb(238, 238, 238);
+        }
+
+        /* Add some space after the navbar */
+        body {
+            padding-top: 70px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Blog Spot</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <!-- Add a logout button -->
+                    <li class="nav-item">
+                        <button class="btn btn-outline-secondary">Logout</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <div class="center-buttons">
+            <div id="response">
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <script type="text/javascript">
+        blogList()
+        function blogList() {
+            var res = document.getElementById('response')
+
+            var url = 'http://127.0.0.1:8000/blogs/'
+
+            fetch(url).then((resp) => resp.json())
+                .then(function (data) {
+                    console.log(data)
+
+                    var list = data
+                    for (var i in list) {
+                        var item = `
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">${list[i].title}</h5>
+                                    <p class="card-text">${list[i].content}</p>
+                                    <p class="card-text"><small class="text-muted">Author: ${list[i].author.first_name}</small></p>
+                                </div>
+                            </div>
+                        `
+                        res.innerHTML += item
+                    }
+                })
+        }
+    </script>
+</body>
+</html>
