@@ -18,15 +18,20 @@ Make sure you have the following installed before running the application:
 
 2. Navigate to the project directory:
 
-    cd django-rest-blog-app
+    cd Blog
 
-3. Create a .env file in the root of the project and set the SECRET_KEY variable. You can generate a Django secret key using a tool like Djecrety.
+3. Create and activate a virtual environment to isolate the project dependencies:
+
+    python -m venv venv
+    source venv/bin/activate   # On Windows, use `venv\Scripts\activate`
+
+4. Create a .env file in the root of the project and set the SECRET_KEY variable. You can generate a Django secret key using a tool like Djecrety.
 
     Example .env file:
 
     SECRET_KEY=your_secret_key_here
 
-4. Install the requirements:
+5. Install the requirements:
 
     pip install -r requirements.txt
 
@@ -38,12 +43,12 @@ Make sure you have the following installed before running the application:
 2. Run the Django development server:
 
     python manage.py runserver
-
+    
     The backend API will be accessible at http://localhost:8000/
 
 3. Open another terminal window, navigate to the templates folder, and run your HTML file using a local server. Replace <your-port> with the desired port number:
 
     cd templates
     python -m http.server <your-port>
-
-The frontend HTML can be accessed at http://localhost:<your-port>/index.html
+    
+    The frontend HTML can be accessed at http://localhost:<your-port>/index.html
