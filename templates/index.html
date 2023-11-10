@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>Bootstrap Template</title>
+    <title>BlogSpot</title>
     <style>
         /* Add custom styles here if needed */
         body {
@@ -22,7 +22,7 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
         <div class="container">
-            <a class="navbar-brand mx-auto" href="#">Blog Spot</a>
+            <a class="navbar-brand mx-auto" href="index.html" >Blog Spot</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,8 +35,8 @@
         <div class="center-buttons">
             <h1>Welcome to Blog Spot</h1>
             <div>
-                <button class="btn btn-primary mr-2" onclick="loadBlogListPage()">Button 1</button>
-                <button class="btn btn-secondary">Button 2</button>
+                <button class="btn btn-primary mr-2" onclick="loginPage()">Login</button>
+                <button class="btn btn-secondary"  onclick="loadRegisterPage()">Register</button>
             </div>
         </div>
     </div>
@@ -47,10 +47,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
     <script>
-        function loadBlogListPage() {
+        function loginPage() {
             // Redirect to the blogpost_list.html page
-            window.location.href = 'blogpost_list.html';
+            window.location.href = 'login.html';
         }
+        function loadRegisterPage(){
+            window.location.href = 'register.html'
+        }
+        
     </script>
 </body>
 </html>
