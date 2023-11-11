@@ -35,7 +35,7 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Add a logout button -->
                     <li class="nav-item">
-                        <button id="logoutButton" class="btn btn-outline-secondary">Logout</button>
+                        <button class="btn btn-outline-secondary">Logout</button>
                     </li>
                 </ul>
             </div>
@@ -43,17 +43,18 @@
     </nav>
 
     <div class="container mt-5">
-        <h1>Login</h1>
-        <form id="loginForm">
+        <h1>Add Blog</h1>
+        <form id="addBlog">
             <div class="form-group">
-                <label for="email">Email address</label>
-                <input type="email" class="form-control" id="email" name="email" required>
+                <label for="title">Blog Name</label>
+                <input type="text" class="form-control" id="title" name="title" required>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
-                <input type="password" class="form-control" id="password" name="password" required>
+                <label for="content">Content</label>
+                <input type="textarea" class="form-control" id="content" name="content" required>
             </div>
-            <button type="submit" class="btn btn-primary">Login</button>
+
+            <button type="submit" class="btn btn-primary">Post</button>
         </form>
     </div>
     <!-- Bootstrap JS and dependencies -->
@@ -79,53 +80,44 @@
         }
         const csrftoken = getCookie('csrftoken');
 
-        document.getElementById('loginForm').addEventListener('submit', function (event) {
-            event.preventDefault();
+        document.getElementById('addBlog').addEventListener('submit', function (event) {
+            event.preventDefault(); // Prevent form submission
+            let form = document.getElementById('addBlog');
+            let formData = new FormData(form);
 
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
+            for (var pair of formData.entries()) {
+                console.log(pair[0] + ': ' + pair[1]);
+            }
 
-            const url = 'http://127.0.0.1:8000/account/login';  
+            var url = 'http://127.0.0.1:8000/blog/create-blog/'
 
+            // Get the access token from local storage
+            const accessToken = localStorage.getItem('accessToken');
+            console.log('Headers:', {
+                'X-CSRFToken': csrftoken,
+                'Authorization': `Bearer ${accessToken}`
+            });
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken,
+                    'Authorization': `Bearer ${accessToken}` // Send the access token in the 'Authorization' header
                 },
-                body: JSON.stringify({ email, password })
+                body: formData
             })
                 .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Login failed');
+                    if (response.ok) {
+                        alert('Blog Posted');
+                        window.location.replace('blogpost_list.html');  // Redirect after registration
+                    } else {
+                        alert('Postin failed, Please try again.');
                     }
-                    return response.json();
-                })
-                .then(data => {
-                    console.log(data);
-                    localStorage.setItem('accessToken', data.access);
-                    localStorage.setItem('refreshToken', data.refresh);                   
-                    window.location.replace('blogpost_list.html'); // Redirect to the dashboard after successful login
-                    alert('Logn successfull')
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    // Handle the error accordingly, e.g., show an error message to the user
-                    alert('Login failed. Please try again.');
+                    alert('Postin failed. Please try again.');
                 });
         });
-        document.addEventListener("DOMContentLoaded", function() {
-    const accessToken = localStorage.getItem('accessToken');
-    const logoutButton = document.getElementById('logoutButton');
-
-    if (accessToken) {
-        // If access token exists, show the logout button
-        logoutButton.style.display = 'block';
-    } else {
-        // If access token doesn't exist, keep the button hidden
-        logoutButton.style.display = 'none';
-    }
-});
     </script>
 
 </body>

@@ -34,7 +34,8 @@
                 <ul class="navbar-nav ml-auto">
                     <!-- Add a logout button -->
                     <li class="nav-item">
-                        <!-- <button class="btn btn-outline-secondary" onclick="logoutPage()">Logout</button> -->
+                        <button class="btn btn-outline-secondary" onclick="logoutPage()">Logout</button>
+                       <a class="btn btn-outline-secondary" href="add_blog.html">Add Post</a>
                     </li>
                 </ul>
             </div>
@@ -60,7 +61,7 @@
         blogList()
         function blogList() {
             var res = document.getElementById('response')
-
+            console.log(localStorage.getItem('accessToken'))
             var url = 'http://127.0.0.1:8000/blog/blogs/'
 
             fetch(url).then((resp) => resp.json())
@@ -83,32 +84,34 @@
                 })
         }
 
-        
-        // function logoutPage() {
-        //     const url = 'http://127.0.0.1:8000/account/logout';  
 
-        // fetch(url, {
-        //     method: 'POST',
-        //     headers: {
-        //         'Authorization': `Token ${token}`,
-        //         'Content-Type': 'application/json',
-        //     },
-        // })
-        //     .then(response => {
-        //         if (response.ok) {
-        //             console.log('Logout successful!');
-        //             // Redirect or handle after logout
-        //             window.location.replace('index.html');
-        //         } else {
-        //             console.error('Logout failed.');
-        //             // Handle logout failure
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //         // Handle errors here
-        //     });
-        // }
+        function logoutPage() {
+            const refresh_token = localStorage.getItem('refreshToken');
+
+            const url = 'http://127.0.0.1:8000/account/logout';
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ refresh: refresh_token })
+            })
+                .then(response => {
+                    if (response.ok) {
+                        localStorage.removeItem('accessToken');
+                        localStorage.removeItem('refreshToken');
+                        window.location.replace('login.html'); // Redirect to login page after successful logout
+                        alert('Logout successful');
+                    } else {
+                        throw new Error('Logout failed');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Logout failed. Please try again.');
+                });
+        }
     </script>
 </body>
 

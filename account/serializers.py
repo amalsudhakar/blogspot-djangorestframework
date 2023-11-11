@@ -13,5 +13,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         instance = self.Meta.model(**validated_data)
         if password:
             instance.set_password(password)
+            instance.is_active = True
         instance.save()
         return instance
